@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Consumption Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Energy Consumption Analysis</h1>
+            <p class="subtitle">Exploring TV energy usage patterns and power pricing trends</p>
+        </header>
+        
+        <section class="intro">
+            <p>This visualization explores various aspects of energy consumption, focusing on television energy usage and historical power pricing trends. The charts below provide insights into how different factors influence energy consumption.</p>
+        </section>
+        
+        <div class="charts-grid">
+            <div class="chart-container" id="scatter-plot-container">
+                <h2>Energy Consumption vs Star Rating</h2>
+                <div id="scatter-plot"></div>
+            </div>
+            
+            <div class="chart-container" id="donut-chart-container">
+                <h2>Energy Consumption by Screen Technology</h2>
+                <div id="donut-chart"></div>
+            </div>
+            
+            <div class="chart-container" id="bar-chart-container">
+                <h2>Energy Consumption for 55-inch TVs</h2>
+                <div id="bar-chart"></div>
+            </div>
+            
+            <div class="chart-container" id="line-chart-container">
+                <h2>Spot Power Prices (1998-2024)</h2>
+                <div id="line-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load individual chart scripts -->
+    <script src="js/scatter-plot.js"></script>
+    <script src="js/donut-chart.js"></script>
+    <script src="js/bar-chart.js"></script>
+    <script src="js/line-chart.js"></script>
+
+    <script>
+// Test the data folder path
+fetch("data/Ex5_TV_energy.csv")
+    .then(response => {
+        console.log("CSV Response status:", response.status);
+        console.log("CSV Response URL:", response.url);
+        return response.text();
+    })
+    .then(data => console.log("CSV loaded successfully"))
+    .catch(error => console.error("Error:", error));
+</script>
+
+
+</body>
+</html>
