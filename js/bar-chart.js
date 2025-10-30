@@ -1,90 +1,55 @@
-async function createBarChart() {
-    // Load actual data
-    const data = await d3.csv("./data/Ex5_TV_energy_55inchtv_byScreenType.csv");
-    
-    // Process data
-    const processedData = data.map(d => ({
-        technology: d.Screen_Tech,
-        consumption: +d["Mean(Labelled energy consumption (kWh/year))"]
-    }));
+// Bar Chart: Energy Consumption for 55-inch TVs
 
-    const margin = { top: 40, right: 30, bottom: 50, left: 60 };
+function drawBarChart() {
     const container = d3.select("#bar-chart");
-    const containerWidth = container.node().getBoundingClientRect().width;
-    const width = containerWidth - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
-    // Clear previous chart
     container.selectAll("*").remove();
 
+    const width = container.node().clientWidth;
+    const height = 400;
+    const margin = { top: 30, right: 30, bottom: 50, left: 60 };
+
     const svg = container.append("svg")
-        .attr("width", containerWidth)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        .attr("width", width)
+        .attr("height", height);
 
-    // Create scales
-    const xScale = d3.scaleBand()
-        .domain(processedData.map(d => d.technology))
-        .range([0, width])
-        .padding(0.3);
+    d3.csv("data/Ex5_TV_energy_55inchtv_byScreenType.csv").then(data => {
+        data.forEach(d => {
+            d["Mean(Labelled energy consumption (kWh/year))"] =
+                +d["Mean(Labelled energy consumption (kWh/year))"];
+        });
 
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(processedData, d => d.consumption) + 50])
-        .range([height, 0]);
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.Screen_Tech))
+            .range([margin.left, width - margin.right])
+            .padding(0.3);
 
-    // Create axes
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d["Mean(Labelled energy consumption (kWh/year))"])])
+            .nice()
+            .range([height - margin.bottom, margin.top]);
 
-    svg.append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0,${height})`)
-        .call(xAxis);
+        svg.append("g")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x));
 
-    svg.append("g")
-        .attr("class", "y-axis")
-        .call(yAxis);
+        svg.append("g")
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(y));
 
-    // Add axis labels
-    svg.append("text")
-        .attr("class", "x-axis-label")
-        .attr("text-anchor", "middle")
-        .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 10)
-        .text("Screen Technology");
-
-    svg.append("text")
-        .attr("class", "y-axis-label")
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2)
-        .attr("y", -margin.left + 15)
-        .text("Energy Consumption (kWh/year)");
-
-    // Create bars
-    svg.selectAll(".bar")
-        .data(processedData)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", d => xScale(d.technology))
-        .attr("y", d => yScale(d.consumption))
-        .attr("width", xScale.bandwidth())
-        .attr("height", d => height - yScale(d.consumption))
-        .attr("fill", "steelblue")
-        .style("opacity", 0.8);
-
-    // Add value labels on bars
-    svg.selectAll(".bar-label")
-        .data(processedData)
-        .enter()
-        .append("text")
-        .attr("class", "bar-label")
-        .attr("x", d => xScale(d.technology) + xScale.bandwidth() / 2)
-        .attr("y", d => yScale(d.consumption) - 5)
-        .attr("text-anchor", "middle")
-        .text(d => d.consumption.toFixed(0))
-        .style("font-size", "12px")
-        .style("font-weight", "bold");
+        svg.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", d => x(d.Screen_Tech))
+            .attr("y", d => y(d["Mean(Labelled energy consumption (kWh/year))"]))
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - margin.bottom - y(d["Mean(Labelled energy consumption (kWh/year))"]))
+            .attr("fill", "#f28e2b");
+    });
 }
+
+drawBarChart();
+window.addEventListener("resize", () => {
+    clearTimeout(window.barResizeTimer);
+    window.barResizeTimer = setTimeout(drawBarChart, 300);
+});

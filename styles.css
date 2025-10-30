@@ -1,15 +1,11 @@
 /* styles.css */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
+    font-family: "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f9fc;
     color: #333;
-    background-color: #f8f9fa;
 }
 
 .container {
@@ -20,95 +16,57 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 30px;
+    background: linear-gradient(135deg, #6664d0, #666cbd);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 header h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
+    margin: 0;
+    font-size: 2.2em;
+    font-weight: 700;
 }
 
 .subtitle {
-    color: #7f8c8d;
-    font-size: 1.1rem;
+    font-size: 1.1em;
+    margin-top: 8px;
+    color: #dbe8ff;
 }
 
 .intro {
-    background-color: white;
+    background: white;
+    border-left: 5px solid #becc41;
     padding: 20px;
+    margin: 30px 0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
-    line-height: 1.7;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.intro p {
+    margin: 0;
+    line-height: 1.6;
 }
 
 .charts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 25px;
+    gap: 30px;
 }
 
 .chart-container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: white;
     padding: 20px;
-    transition: transform 0.3s ease;
-}
-
-.chart-container:hover {
-    transform: translateY(-5px);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .chart-container h2 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-#scatter-plot,
-#donut-chart,
-#bar-chart,
-#line-chart {
-    width: 100%;
-    height: 400px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1100px) {
-    .charts-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .chart-container {
-        padding: 15px;
-    }
-    
-    #scatter-plot,
-    #donut-chart,
-    #bar-chart,
-    #line-chart {
-        height: 300px;
-    }
-}
-
-/* Temporary debug styles */
-.chart-container {
-    border: 2px solid red !important;
-    background-color: #f0f0f0 !important;
-}
-
-#scatter-plot,
-#donut-chart, 
-#bar-chart,
-#line-chart {
-    border: 2px solid blue !important;
-    background-color: #e0e0e0 !important;
-    min-height: 400px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #1d3557;
+    font-size: 1.3em;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 5px;
 }
